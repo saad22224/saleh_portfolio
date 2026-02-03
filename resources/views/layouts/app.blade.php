@@ -4,17 +4,40 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ $settings['meta_description'] ?? 'Saleh Portfolio - Professional Digital Artist & Designer specializing in AR filters, motion graphics, and creative digital experiences.' }}">
+    <meta name="theme-color" content="#D4AF37">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Saleh">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ $settings['site_title'] ?? 'Saleh Portfolio' }}">
+    <meta property="og:description" content="{{ $settings['meta_description'] ?? 'Professional Digital Artist & Designer specializing in AR filters and motion graphics.' }}">
+    <meta property="og:locale" content="{{ app()->getLocale() == 'ar' ? 'ar_SA' : 'en_US' }}">
+
     <title>{{ $settings['site_title'] ?? 'Saleh Portfolio' }}</title>
 
-    <!-- Fonts -->
+    <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
 
-    <!-- Icons & Frameworks -->
+    <!-- Fonts with display swap for better performance -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Noto+Kufi+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Critical CSS Frameworks -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <!-- Deferred non-critical CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </noscript>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+    </noscript>
 
     <script>
         tailwind.config = {
@@ -183,9 +206,11 @@
 </head>
 
 <body class="antialiased bg-white text-dark overflow-x-hidden">
-    <header class="fixed w-full z-[100] transition-all duration-500 glass-nav">
-        <nav class="container mx-auto px-6 lg:px-12 py-5 flex justify-between items-center">
-            <a href="{{ route('home', ['locale' => app()->getLocale()]) }}" class="text-3xl font-black tracking-tighter text-gold-gradient">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-premium-gold text-white px-4 py-2 rounded-lg z-[200]">Skip to main content</a>
+
+    <header class="fixed w-full z-[100] transition-all duration-500 glass-nav" role="banner">
+        <nav class="container mx-auto px-6 lg:px-12 py-5 flex justify-between items-center" aria-label="Main navigation">
+            <a href="{{ route('home', ['locale' => app()->getLocale()]) }}" class="text-3xl font-black tracking-tighter text-gold-gradient" aria-label="Saleh Portfolio - Home">
                 SALEH<span class="text-dark">.</span>
             </a>
 
@@ -195,35 +220,40 @@
                 <a href="{{ route('home', ['locale' => app()->getLocale()]) }}#clients" class="hover:text-premium-gold transition">{{ __('Partners') }}</a>
                 <a href="{{ route('home', ['locale' => app()->getLocale()]) }}#contact" class="hover:text-premium-gold transition">{{ __('Contact') }}</a>
 
-                <div class="w-[1px] h-4 bg-gray-200"></div>
+                <div class="w-[1px] h-4 bg-gray-200" aria-hidden="true"></div>
 
                 @php $targetLocale = app()->getLocale() == 'ar' ? 'en' : 'ar'; @endphp
                 <a href="{{ url($targetLocale . (request()->segment(2) ? '/' . request()->segment(2) . '/' . request()->segment(3) : '')) }}"
-                    class="flex items-center text-premium-gold hover:scale-110 transition duration-300">
-                    <i class="fa-solid fa-globe mr-2 rtl:ml-2"></i>
+                    class="flex items-center text-premium-gold hover:scale-110 transition duration-300"
+                    aria-label="Switch language to {{ $targetLocale == 'ar' ? 'Arabic' : 'English' }}">
+                    <i class="fa-solid fa-globe mr-2 rtl:ml-2" aria-hidden="true"></i>
                     <span>{{ $targetLocale == 'ar' ? 'العربية' : 'English' }}</span>
                 </a>
             </div>
 
-            <button class="md:hidden text-dark text-2xl">
-                <i class="fa-solid fa-bars-staggered"></i>
+            <button class="md:hidden text-dark text-2xl" aria-label="Open menu" aria-expanded="false">
+                <i class="fa-solid fa-bars-staggered" aria-hidden="true"></i>
             </button>
         </nav>
     </header>
 
-    <main>
+    <main id="main-content" role="main">
         @yield('content')
     </main>
 
     <!-- WhatsApp Floating Button -->
     @if(isset($settings['whatsapp']))
-    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $settings['whatsapp']) }}" target="_blank" class="whatsapp-float">
-        <i class="fa-brands fa-whatsapp"></i>
+    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $settings['whatsapp']) }}" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       class="whatsapp-float"
+       aria-label="Contact us on WhatsApp">
+        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
     </a>
     @endif
 
-    <footer class="bg-dark text-white pt-32 pb-12 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-1 bg-gold-gradient"></div>
+    <footer class="bg-dark text-white pt-32 pb-12 relative overflow-hidden" role="contentinfo">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gold-gradient" aria-hidden="true"></div>
         <div class="container mx-auto px-6 lg:px-12 relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
                 <div class="col-span-1 md:col-span-2">
@@ -231,27 +261,29 @@
                     <p class="text-gray-400 max-w-sm mb-12 leading-relaxed text-lg">
                         {{ __('Elevating digital experiences through cutting-edge AR filters and cinematic motion graphics. Based in the heart of creativity.') }}
                     </p>
-                    <div class="flex space-x-6 rtl:space-x-reverse text-2xl">
-                        <a href="#" class="hover:text-premium-gold transition"><i class="fa-brands fa-snapchat"></i></a>
-                        <a href="#" class="hover:text-premium-gold transition"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="hover:text-premium-gold transition"><i class="fa-brands fa-behance"></i></a>
+                    <div class="flex space-x-6 rtl:space-x-reverse text-2xl" role="list" aria-label="Social media links">
+                        <a href="#" class="hover:text-premium-gold transition" aria-label="Snapchat" rel="noopener noreferrer"><i class="fa-brands fa-snapchat" aria-hidden="true"></i></a>
+                        <a href="#" class="hover:text-premium-gold transition" aria-label="Instagram" rel="noopener noreferrer"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" class="hover:text-premium-gold transition" aria-label="Behance" rel="noopener noreferrer"><i class="fa-brands fa-behance" aria-hidden="true"></i></a>
                     </div>
                 </div>
                 <div>
-                    <h4 class="text-white font-black mb-8 uppercase tracking-widest text-sm">{{ __('Navigation') }}</h4>
-                    <ul class="space-y-4 text-gray-400 font-medium">
+                    <h3 class="text-white font-black mb-8 uppercase tracking-widest text-sm">{{ __('Navigation') }}</h3>
+                    <ul class="space-y-4 text-gray-400 font-medium" role="list">
                         <li><a href="{{ route('home', ['locale' => app()->getLocale()]) }}#about" class="hover:text-premium-gold transition">{{ __('About') }}</a></li>
                         <li><a href="{{ route('home', ['locale' => app()->getLocale()]) }}#works" class="hover:text-premium-gold transition">{{ __('Portfolio') }}</a></li>
                         <li><a href="{{ route('home', ['locale' => app()->getLocale()]) }}#clients" class="hover:text-premium-gold transition">{{ __('Partners') }}</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-white font-black mb-8 uppercase tracking-widest text-sm text-gold-gradient">{{ __('Contact') }}</h4>
-                    <p class="text-gray-400 mb-4">{{ $settings['email'] ?? 'hello@saleh.design' }}</p>
-                    <p class="text-gray-400">{{ $settings['location'] ?? 'Riyadh, Saudi Arabia' }}</p>
-                    @if(isset($settings['whatsapp']))
-                    <p class="text-gray-400 mt-4"><i class="fa-brands fa-whatsapp text-green-500 mr-2 rtl:ml-2"></i> {{ $settings['whatsapp'] }}</p>
-                    @endif
+                    <h3 class="text-white font-black mb-8 uppercase tracking-widest text-sm text-gold-gradient">{{ __('Contact') }}</h3>
+                    <address class="not-italic">
+                        <p class="text-gray-400 mb-4">{{ $settings['email'] ?? 'hello@saleh.design' }}</p>
+                        <p class="text-gray-400">{{ $settings['location'] ?? 'Riyadh, Saudi Arabia' }}</p>
+                        @if(isset($settings['whatsapp']))
+                        <p class="text-gray-400 mt-4"><i class="fa-brands fa-whatsapp text-green-500 mr-2 rtl:ml-2" aria-hidden="true"></i> {{ $settings['whatsapp'] }}</p>
+                        @endif
+                    </address>
                 </div>
             </div>
             <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm font-bold tracking-widest">
@@ -260,11 +292,14 @@
         </div>
     </footer>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js" defer></script>
     <script>
-        AOS.init({
-            duration: 1000,
-            once: true
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                once: true,
+                disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            });
         });
     </script>
 </body>

@@ -28,7 +28,12 @@
             </div>
             <div class="relative" data-aos="zoom-in" data-aos-delay="200">
                 <div class="relative z-10 rounded-[3rem] overflow-hidden border-[12px] border-white shadow-[0_50px_100px_rgba(0,0,0,0.1)] aspect-[4/5] max-w-md mx-auto">
-                    <img src="https://picsum.photos/seed/saleh-main/800/1000" class="w-full h-full object-cover" alt="Saleh">
+                    <img src="https://picsum.photos/seed/saleh-main/800/1000" 
+                         class="w-full h-full object-cover" 
+                         alt="{{ __('Saleh - Digital Artist and Designer') }}"
+                         width="800"
+                         height="1000"
+                         loading="eager">
                 </div>
                 <div class="absolute -bottom-10 -left-10 bg-dark text-white p-8 rounded-[2rem] shadow-2xl z-20 hidden md:block border-b-4 border-premium-gold">
                     <div class="flex items-center space-x-4 rtl:space-x-reverse">
@@ -67,19 +72,29 @@
                 </a>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10" role="list">
                 @foreach($category->projects as $project)
-                <div class="group relative aspect-[3/4] rounded-[3rem] overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                    <img src="{{ asset('storage/' . $project->thumbnail) }}" class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                <article class="group relative aspect-[3/4] rounded-[3rem] overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}" role="listitem">
+                    <img src="{{ asset('storage/' . $project->thumbnail) }}" 
+                         class="w-full h-full object-cover transition duration-1000 group-hover:scale-110"
+                         alt="{{ app()->getLocale() == 'ar' ? $project->title_ar : $project->title_en }}"
+                         loading="lazy"
+                         width="400"
+                         height="533">
                     <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-10">
-                        <h4 class="text-2xl font-black text-white mb-6 transform translate-y-10 group-hover:translate-y-0 transition">
+                        <h3 class="text-2xl font-black text-white mb-6 transform translate-y-10 group-hover:translate-y-0 transition">
                             {{ app()->getLocale() == 'ar' ? $project->title_ar : $project->title_en }}
-                        </h4>
-                        <a href="{{ $project->lens_link ?? $project->video_url }}" target="_blank" class="w-full py-5 bg-white text-dark text-center font-black rounded-2xl hover:bg-premium-gold hover:text-white transition">
+                        </h3>
+                        @if($project->lens_link || $project->video_url)
+                        <a href="{{ $project->lens_link ?? $project->video_url }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="w-full py-5 bg-white text-dark text-center font-black rounded-2xl hover:bg-premium-gold hover:text-white transition">
                             {{ $project->lens_link ? __('Unlock Lens') : __('Play Video') }}
                         </a>
+                        @endif
                     </div>
-                </div>
+                </article>
                 @endforeach
             </div>
         </div>
@@ -118,7 +133,7 @@
 </section>
 
 <!-- Contact: Simple & Localized -->
-<section id="contact" class="py-32 bg-gray-50">
+<section id="contact" class="py-32 bg-gray-50" aria-label="{{ __('Contact Us') }}">
     <div class="container mx-auto px-6">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-16" data-aos="fade-up">
@@ -128,37 +143,41 @@
 
             <div class="bg-white rounded-[3rem] p-10 md:p-16 shadow-2xl border border-gray-100" data-aos="zoom-in">
                 @if(session('success'))
-                <div class="mb-10 p-6 bg-green-500 text-white rounded-2xl font-bold flex items-center">
-                    <i class="fa-solid fa-check-circle mr-4 rtl:ml-4 text-2xl"></i>
+                <div class="mb-10 p-6 bg-green-500 text-white rounded-2xl font-bold flex items-center" role="alert">
+                    <i class="fa-solid fa-check-circle mr-4 rtl:ml-4 text-2xl" aria-hidden="true"></i>
                     {{ session('success') }}
                 </div>
                 @endif
 
-                <form action="{{ route('contact.send', ['locale' => app()->getLocale()]) }}" method="POST" class="space-y-10">
+                <form action="{{ route('contact.send', ['locale' => app()->getLocale()]) }}" method="POST" class="space-y-10" novalidate>
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div>
-                            <label class="block text-xs font-black uppercase tracking-widest text-gray-400 mb-3 ml-1 rtl:mr-1 rtl:ml-0">{{ __('Full Name') }}</label>
-                            <input type="text" name="name" value="{{ old('name') }}" required class="w-full bg-gray-50 border-2 {{ $errors->has('name') ? 'border-red-500' : 'border-gray-50' }} px-6 py-4 rounded-xl focus:border-premium-gold focus:bg-white outline-none transition-all font-bold text-dark" placeholder="{{ __('Your Name') }}">
+                            <label for="contact-name" class="block text-xs font-black uppercase tracking-widest text-gray-400 mb-3 ml-1 rtl:mr-1 rtl:ml-0">{{ __('Full Name') }}</label>
+                            <input type="text" id="contact-name" name="name" value="{{ old('name') }}" required autocomplete="name" class="w-full bg-gray-50 border-2 {{ $errors->has('name') ? 'border-red-500' : 'border-gray-50' }} px-6 py-4 rounded-xl focus:border-premium-gold focus:bg-white outline-none transition-all font-bold text-dark" placeholder="{{ __('Your Name') }}">
+                            @error('name')<p class="text-red-500 text-sm mt-2">{{ $message }}</p>@enderror
                         </div>
                         <div>
-                            <label class="block text-xs font-black uppercase tracking-widest text-gray-400 mb-3 ml-1 rtl:mr-1 rtl:ml-0">{{ __('Phone Number') }}</label>
-                            <input type="tel" name="phone" value="{{ old('phone') }}" required class="w-full bg-gray-50 border-2 {{ $errors->has('phone') ? 'border-red-500' : 'border-gray-50' }} px-6 py-4 rounded-xl focus:border-premium-gold focus:bg-white outline-none transition-all font-bold text-dark" placeholder="05xxxxxxxx">
+                            <label for="contact-phone" class="block text-xs font-black uppercase tracking-widest text-gray-400 mb-3 ml-1 rtl:mr-1 rtl:ml-0">{{ __('Phone Number') }}</label>
+                            <input type="tel" id="contact-phone" name="phone" value="{{ old('phone') }}" required autocomplete="tel" class="w-full bg-gray-50 border-2 {{ $errors->has('phone') ? 'border-red-500' : 'border-gray-50' }} px-6 py-4 rounded-xl focus:border-premium-gold focus:bg-white outline-none transition-all font-bold text-dark" placeholder="05xxxxxxxx">
+                            @error('phone')<p class="text-red-500 text-sm mt-2">{{ $message }}</p>@enderror
                         </div>
                         <div>
-                            <label class="block text-xs font-black uppercase tracking-widest text-gray-400 mb-3 ml-1 rtl:mr-1 rtl:ml-0">{{ __('Email Address') }}</label>
-                            <input type="email" name="email" value="{{ old('email') }}" required class="w-full bg-gray-50 border-2 {{ $errors->has('email') ? 'border-red-500' : 'border-gray-50' }} px-6 py-4 rounded-xl focus:border-premium-gold focus:bg-white outline-none transition-all font-bold text-dark" placeholder="example@mail.com">
+                            <label for="contact-email" class="block text-xs font-black uppercase tracking-widest text-gray-400 mb-3 ml-1 rtl:mr-1 rtl:ml-0">{{ __('Email Address') }}</label>
+                            <input type="email" id="contact-email" name="email" value="{{ old('email') }}" required autocomplete="email" class="w-full bg-gray-50 border-2 {{ $errors->has('email') ? 'border-red-500' : 'border-gray-50' }} px-6 py-4 rounded-xl focus:border-premium-gold focus:bg-white outline-none transition-all font-bold text-dark" placeholder="example@mail.com">
+                            @error('email')<p class="text-red-500 text-sm mt-2">{{ $message }}</p>@enderror
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-black uppercase tracking-widest text-gray-400 mb-3 ml-1 rtl:mr-1 rtl:ml-0">{{ __('Your Vision') }}</label>
-                        <textarea name="message" rows="6" required class="w-full bg-gray-50 border-2 {{ $errors->has('message') ? 'border-red-500' : 'border-gray-50' }} px-8 py-5 rounded-2xl focus:border-premium-gold focus:bg-white outline-none transition-all font-bold text-dark resize-none" placeholder="{{ __('Tell me about your project...') }}">{{ old('message') }}</textarea>
+                        <label for="contact-message" class="block text-xs font-black uppercase tracking-widest text-gray-400 mb-3 ml-1 rtl:mr-1 rtl:ml-0">{{ __('Your Vision') }}</label>
+                        <textarea id="contact-message" name="message" rows="6" required class="w-full bg-gray-50 border-2 {{ $errors->has('message') ? 'border-red-500' : 'border-gray-50' }} px-8 py-5 rounded-2xl focus:border-premium-gold focus:bg-white outline-none transition-all font-bold text-dark resize-none" placeholder="{{ __('Tell me about your project...') }}">{{ old('message') }}</textarea>
+                        @error('message')<p class="text-red-500 text-sm mt-2">{{ $message }}</p>@enderror
                     </div>
 
                     <button type="submit" class="group relative w-full py-7 bg-dark text-white font-black rounded-2xl uppercase tracking-[0.2em] text-sm overflow-hidden transition-all duration-500 shadow-xl hover:shadow-premium-gold/20">
                         <span class="relative z-10">{{ __('Send Inquiry') }}</span>
-                        <div class="absolute inset-0 bg-gold-gradient translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                        <div class="absolute inset-0 bg-gold-gradient translate-y-full group-hover:translate-y-0 transition-transform duration-500" aria-hidden="true"></div>
                     </button>
                 </form>
 
