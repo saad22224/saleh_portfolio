@@ -9,6 +9,7 @@ use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -154,5 +155,43 @@ class AdminController extends Controller
             ]);
         }
         return back()->with('success', 'Settings updated.');
+    }
+
+    // Clients/Partners
+    public function clients()
+    {
+        $clients = Client::orderBy('created_at', 'desc')->get();
+        return view('admin.clients.index', compact('clients'));
+    }
+
+    public function storeClient(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        ]);
+
+        $logoPath = $request->file('logo')->store('clients', 'public');
+
+        Client::create([
+            'name' => $request->name,
+            'logo' => '/storage/' . $logoPath,
+        ]);
+
+        return back()->with('success', 'Partner added successfully.');
+    }
+
+    public function deleteClient($id)
+    {
+        $client = Client::findOrFail($id);
+
+        // Delete logo file if exists
+        $logoPath = str_replace('/storage/', '', $client->logo);
+        if (Storage::disk('public')->exists($logoPath)) {
+            Storage::disk('public')->delete($logoPath);
+        }
+
+        $client->delete();
+        return back()->with('success', 'Partner deleted successfully.');
     }
 }

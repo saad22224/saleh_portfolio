@@ -44,37 +44,6 @@
     </div>
 </section>
 
-<!-- Partners: Infinite Moving Carousel -->
-<section id="clients" class="py-32 bg-dark">
-    <div class="container mx-auto px-6 mb-16 text-center" data-aos="fade-up">
-        <h2 class="text-sm font-black text-premium-gold uppercase tracking-[0.5em] mb-6">{{ __('Partners') }}</h2>
-        <h3 class="text-4xl md:text-5xl font-black text-white tracking-tighter italic">{{ __('Collaborated with Forward-Thinking Brands') }}</h3>
-    </div>
-
-    <div class="logos-slider border-y border-white/5 py-12 bg-white/[0.02]">
-        <div class="flex space-x-20 rtl:space-x-reverse animate-carousel w-max items-center">
-            @php $clientList = $clients->count() > 0 ? $clients->concat($clients) : collect(); @endphp
-            @forelse($clientList as $client)
-            <div class="flex-shrink-0 grayscale invert opacity-50 hover:grayscale-0 hover:invert-0 hover:opacity-100 transition duration-500">
-                <img src="{{ $client->logo }}" alt="{{ $client->name }}" class="h-12 md:h-16 w-auto object-contain">
-            </div>
-            @empty
-            @foreach(['Apple', 'Nike', 'Snapchat', 'Disney', 'Adidas', 'Pepsi', 'RedBull', 'Coca-Cola'] as $brand)
-            <div class="flex-shrink-0 px-10">
-                <span class="text-4xl md:text-6xl font-black text-white/10 uppercase italic tracking-tighter">{{ $brand }}</span>
-            </div>
-            @endforeach
-            {{-- Repeat for animation --}}
-            @foreach(['Apple', 'Nike', 'Snapchat', 'Disney', 'Adidas', 'Pepsi', 'RedBull', 'Coca-Cola'] as $brand)
-            <div class="flex-shrink-0 px-10">
-                <span class="text-4xl md:text-6xl font-black text-white/10 uppercase italic tracking-tighter">{{ $brand }}</span>
-            </div>
-            @endforeach
-            @endforelse
-        </div>
-    </div>
-</section>
-
 <!-- Works -->
 <div id="works">
     @foreach($categories as $category)
@@ -117,6 +86,36 @@
     </section>
     @endforeach
 </div>
+
+<!-- Partners: Auto-Scrolling Logo Carousel -->
+<section id="clients" class="py-16 bg-white border-t border-b border-gray-100 overflow-hidden">
+    <div class="container mx-auto px-6 mb-10">
+        <div class="text-center" data-aos="fade-up">
+            <h2 class="text-2xl md:text-3xl font-bold text-dark">{{ __('Our Partners') }}</h2>
+        </div>
+    </div>
+
+    <div class="partners-slider relative">
+        <!-- Fade edges -->
+        <div class="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-white to-transparent z-10"></div>
+        <div class="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-white to-transparent z-10"></div>
+
+        <div class="flex animate-partners-scroll">
+            @php $clientList = $clients->count() > 0 ? $clients->concat($clients)->concat($clients) : collect(); @endphp
+            @forelse($clientList as $client)
+            <div class="flex-shrink-0 mx-8 md:mx-12 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="{{ $client->logo }}" alt="{{ $client->name }}" class="h-10 md:h-14 w-auto object-contain">
+            </div>
+            @empty
+            @foreach(['Apple', 'Nike', 'Snapchat', 'Disney', 'Adidas', 'Pepsi', 'RedBull', 'Coca-Cola', 'Apple', 'Nike', 'Snapchat', 'Disney', 'Adidas', 'Pepsi', 'RedBull', 'Coca-Cola'] as $brand)
+            <div class="flex-shrink-0 mx-8 md:mx-12 opacity-20 hover:opacity-50 transition duration-300">
+                <span class="text-2xl md:text-3xl font-bold text-gray-400 uppercase tracking-tight whitespace-nowrap">{{ $brand }}</span>
+            </div>
+            @endforeach
+            @endforelse
+        </div>
+    </div>
+</section>
 
 <!-- Contact: Simple & Localized -->
 <section id="contact" class="py-32 bg-gray-50">

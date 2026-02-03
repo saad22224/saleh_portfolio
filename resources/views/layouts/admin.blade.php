@@ -24,6 +24,9 @@
             <a href="{{ route('admin.projects') }}" class="flex items-center p-4 rounded-xl hover:bg-white/5 transition {{ request()->routeIs('admin.projects') ? 'bg-orange-500 font-bold' : '' }}">
                 <i class="fa-solid fa-briefcase mr-4"></i> Projects
             </a>
+            <a href="{{ route('admin.clients') }}" class="flex items-center p-4 rounded-xl hover:bg-white/5 transition {{ request()->routeIs('admin.clients') ? 'bg-orange-500 font-bold' : '' }}">
+                <i class="fa-solid fa-handshake mr-4"></i> Partners
+            </a>
             <a href="{{ route('admin.settings') }}" class="flex items-center p-4 rounded-xl hover:bg-white/5 transition {{ request()->routeIs('admin.settings') ? 'bg-orange-500 font-bold' : '' }}">
                 <i class="fa-solid fa-gear mr-4"></i> Settings
             </a>

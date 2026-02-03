@@ -34,4 +34,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::delete('/projects/{id}', [AdminController::class, 'deleteProject'])->name('admin.projects.delete');
     Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
     Route::post('/settings', [AdminController::class, 'updateSettings']);
+
+    // Clients/Partners
+    Route::get('/clients', [AdminController::class, 'clients'])->name('admin.clients');
+    Route::post('/clients', [AdminController::class, 'storeClient']);
+    Route::delete('/clients/{id}', [AdminController::class, 'deleteClient'])->name('admin.clients.delete');
 });

@@ -33,6 +33,7 @@
                     },
                     animation: {
                         'carousel': 'carousel 40s linear infinite',
+                        'partners-scroll': 'partners-scroll 30s linear infinite',
                     },
                     keyframes: {
                         carousel: {
@@ -41,6 +42,14 @@
                             },
                             '100%': {
                                 transform: 'translateX(-50%)'
+                            },
+                        },
+                        'partners-scroll': {
+                            '0%': {
+                                transform: 'translateX(0)'
+                            },
+                            '100%': {
+                                transform: 'translateX(-33.333%)'
                             },
                         }
                     }
@@ -154,6 +163,21 @@
         .logos-slider::after {
             right: 0;
             background: linear-gradient(to left, #0A0A0A 0%, transparent 100%);
+        }
+
+        /* Partners Auto-Scroll Slider */
+        .partners-slider {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .partners-slider:hover .animate-partners-scroll {
+            animation-play-state: paused;
+        }
+
+        /* RTL Support */
+        [dir="rtl"] .animate-partners-scroll {
+            animation-direction: reverse;
         }
     </style>
 </head>
