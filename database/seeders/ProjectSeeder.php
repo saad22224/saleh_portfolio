@@ -21,8 +21,8 @@ class ProjectSeeder extends Seeder
                 'title_ar' => "مشروع عدسة $i",
                 'description_en' => "High quality AR experience for brand $i.",
                 'description_ar' => "تجربة واقع معزز عالية الجودة للعلامة التجارية $i.",
-                'thumbnail' => "https://picsum.photos/seed/lens$i/600/800",
-                'lens_link' => "https://lens.snapchat.com/example",
+                'thumbnail' => "projects/OZm6uVaIsbmqp0r1TDv6BnY64uggBMZENqF0Kw0f.jpg",
+                'lens_link' => "projects/OZm6uVaIsbmqp0r1TDv6BnY64uggBMZENqF0Kw0f.jpg",
                 'sort_order' => $i,
                 'is_featured' => $i <= 4
             ]);
@@ -36,7 +36,7 @@ class ProjectSeeder extends Seeder
                 'title_ar' => "عمل موشن جرافيك $i",
                 'description_en' => "Professional video production for social media.",
                 'description_ar' => "إنتاج فيديو احترافي لوسائل التواصل الاجتماعي.",
-                'thumbnail' => "https://picsum.photos/seed/motion$i/800/600",
+                'thumbnail' => "projects/OZm6uVaIsbmqp0r1TDv6BnY64uggBMZENqF0Kw0f.jpg",
                 'video_url' => "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 'sort_order' => $i,
                 'is_featured' => $i <= 4
