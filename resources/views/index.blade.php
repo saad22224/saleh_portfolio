@@ -28,7 +28,7 @@
             </div>
             <div class="relative" data-aos="zoom-in" data-aos-delay="200">
                 <div class="relative z-10 rounded-[3rem] overflow-hidden border-[12px] border-white shadow-[0_50px_100px_rgba(0,0,0,0.1)] aspect-[4/5] max-w-md mx-auto">
-                    <img src="https://picsum.photos/seed/saleh-main/800/1000" 
+                    <img src="{{ isset($settings['hero_image']) && $settings['hero_image'] ? asset('storage/' . $settings['hero_image']) : 'https://picsum.photos/seed/saleh-main/800/1000' }}" 
                          class="w-full h-full object-cover" 
                          alt="{{ __('Saleh - Digital Artist and Designer') }}"
                          width="800"

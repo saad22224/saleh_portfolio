@@ -148,12 +148,40 @@ class AdminController extends Controller
 
     public function updateSettings(Request $request)
     {
-        foreach ($request->settings as $key => $values) {
-            Setting::where('key', $key)->update([
-                'value_en' => $values['en'] ?? null,
-                'value_ar' => $values['ar'] ?? null,
+        // Handle hero_image upload
+        if ($request->hasFile('hero_image')) {
+            $request->validate([
+                'hero_image' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
             ]);
+
+            // Get current hero_image setting
+            $heroSetting = Setting::where('key', 'hero_image')->first();
+
+            // Delete old image if exists
+            if ($heroSetting && $heroSetting->value_en) {
+                Storage::disk('public')->delete($heroSetting->value_en);
+            }
+
+            // Store new image
+            $imagePath = $request->file('hero_image')->store('settings', 'public');
+
+            // Update setting
+            Setting::updateOrCreate(
+                ['key' => 'hero_image'],
+                ['value_en' => $imagePath, 'value_ar' => $imagePath, 'type' => 'image']
+            );
         }
+
+        // Handle text settings
+        if ($request->has('settings')) {
+            foreach ($request->settings as $key => $values) {
+                Setting::where('key', $key)->update([
+                    'value_en' => $values['en'] ?? null,
+                    'value_ar' => $values['ar'] ?? null,
+                ]);
+            }
+        }
+
         return back()->with('success', 'Settings updated.');
     }
 
