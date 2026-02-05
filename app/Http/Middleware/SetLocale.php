@@ -18,8 +18,8 @@ class SetLocale
             URL::defaults(['locale' => $locale]);
         } else {
             // Default to Arabic as requested
-            App::setLocale('ar');
-            URL::defaults(['locale' => 'ar']);
+            App::setLocale('en');
+            URL::defaults(['locale' => 'en']);
         }
 
         return $next($request);

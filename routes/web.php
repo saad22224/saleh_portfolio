@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 // Redirect root to Arabic locale
 Route::get('/', function () {
-    return redirect('/ar');
+    return redirect('/en');
 });
 
 // Auth Routes (Simple)
@@ -40,3 +40,4 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('/clients', [AdminController::class, 'storeClient']);
     Route::delete('/clients/{id}', [AdminController::class, 'deleteClient'])->name('admin.clients.delete');
 });
+   

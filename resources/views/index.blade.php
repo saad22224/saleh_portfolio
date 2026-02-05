@@ -64,12 +64,6 @@
                         <span class="text-gold-gradient">{{ app()->getLocale() == 'ar' ? 'مختارة' : 'WORKS' }}</span>
                     </h2>
                 </div>
-                <a href="{{ route('category', ['locale' => app()->getLocale(), 'slug' => $category->slug]) }}"
-                    class="group flex items-center space-x-4 rtl:space-x-reverse text-dark font-black uppercase tracking-widest text-sm hover:text-premium-gold transition">
-                    <span>{{ __('Full Gallery') }}</span>
-                    <div class="w-16 h-[2px] bg-dark group-hover:bg-premium-gold group-hover:w-24 transition-all"></div>
-                    <i class="fa-solid fa-plus rotate-45 group-hover:rotate-90 transition duration-500"></i>
-                </a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10" role="list">
@@ -96,6 +90,14 @@
                     </div>
                 </article>
                 @endforeach
+            </div>
+
+            <div class="mt-12 text-center" data-aos="fade-up">
+                <a href="{{ route('category', ['locale' => app()->getLocale(), 'slug' => $category->slug]) }}"
+                   class="btn-premium inline-flex items-center justify-center px-10 py-4 rounded-full text-lg shadow-xl group">
+                    <span>{{ __('Full Gallery') }}</span>
+                    <i class="fa-solid fa-arrow-right ml-3 rtl:mr-3 rtl:rotate-180 transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform"></i>
+                </a>
             </div>
         </div>
     </section>

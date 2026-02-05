@@ -13,7 +13,7 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::has('projects')->with(['projects' => function ($q) {
-            $q->orderBy('sort_order')->take(4);
+            $q->orderBy('sort_order')->take(8);
         }])->get();
 
         $clients = Client::all();

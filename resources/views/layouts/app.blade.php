@@ -52,7 +52,7 @@
                         dark: '#0A0A0A',
                     },
                     fontFamily: {
-                        sans: ['Outfit', 'Noto Kufi Arabic', 'sans-serif'],
+                        sans: ['Outfit', 'TheSans', 'sans-serif'],
                     },
                     animation: {
                         'carousel': 'carousel 40s linear infinite',
@@ -82,6 +82,25 @@
     </script>
 
     <style>
+        @font-face {
+            font-family: 'TheSans';
+            src: url('/TheSans-Bold.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'TheSans';
+            src: url('/TheSans-Bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'TheSans';
+            src: url('/TheSans-Bold.otf') format('opentype');
+            font-weight: 900;
+            font-style: normal;
+        }
+
         :root {
             --gold-gradient: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
         }
@@ -158,7 +177,7 @@
         }
 
         [dir="rtl"] .font-sans {
-            font-family: 'Noto Kufi Arabic', sans-serif;
+            font-family: 'TheSans', sans-serif;
         }
 
         /* Infinite Slider */
