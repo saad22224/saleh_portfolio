@@ -250,11 +250,59 @@
                 </a>
             </div>
 
-            <button class="md:hidden text-dark text-2xl" aria-label="Open menu" aria-expanded="false">
+            <button id="menu-toggle" class="md:hidden text-dark text-2xl focus:outline-none transition-transform active:scale-90" aria-label="Open menu" aria-expanded="false">
                 <i class="fa-solid fa-bars-staggered" aria-hidden="true"></i>
             </button>
         </nav>
     </header>
+
+    <!-- Mobile Menu Overlay - Outside header for proper layering -->
+    <div id="mobile-menu" class="fixed inset-0 z-[9999] translate-x-full transition-transform duration-500 md:hidden" style="background-color: #ffffff !important; opacity: 1 !important;" aria-hidden="true">
+        <!-- Decorative Background Element -->
+        <div class="absolute top-0 right-0 w-full h-full bg-premium-gold/[0.02] -skew-x-12 transform origin-top-right"></div>
+        
+        <div class="relative flex flex-col h-full p-8 z-10">
+            <div class="flex justify-between items-center mb-16">
+                <a href="{{ route('home', ['locale' => app()->getLocale()]) }}" class="text-3xl font-black tracking-tighter text-gold-gradient">
+                    SALEH<span class="text-dark">.</span>
+                </a>
+                <button id="menu-close" class="w-12 h-12 flex items-center justify-center bg-dark text-white rounded-full focus:outline-none hover:bg-premium-gold transition shadow-lg" aria-label="Close menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <nav class="flex flex-col space-y-10" aria-label="Mobile menu navigation">
+                <a href="{{ route('home', ['locale' => app()->getLocale()]) }}#about" class="mobile-link group flex items-center justify-between border-b border-gray-50 pb-6">
+                    <span class="text-4xl font-black uppercase tracking-tighter transition-colors group-hover:text-premium-gold">{{ __('About') }}</span>
+                    <i class="fa-solid fa-chevron-right text-premium-gold opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0"></i>
+                </a>
+                <a href="{{ route('home', ['locale' => app()->getLocale()]) }}#works" class="mobile-link group flex items-center justify-between border-b border-gray-50 pb-6">
+                    <span class="text-4xl font-black uppercase tracking-tighter transition-colors group-hover:text-premium-gold">{{ __('Portfolio') }}</span>
+                    <i class="fa-solid fa-chevron-right text-premium-gold opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0"></i>
+                </a>
+                <a href="{{ route('home', ['locale' => app()->getLocale()]) }}#clients" class="mobile-link group flex items-center justify-between border-b border-gray-50 pb-6">
+                    <span class="text-4xl font-black uppercase tracking-tighter transition-colors group-hover:text-premium-gold">{{ __('Partners') }}</span>
+                    <i class="fa-solid fa-chevron-right text-premium-gold opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0"></i>
+                </a>
+                <a href="{{ route('home', ['locale' => app()->getLocale()]) }}#contact" class="mobile-link group flex items-center justify-between border-b border-gray-50 pb-6">
+                    <span class="text-4xl font-black uppercase tracking-tighter transition-colors group-hover:text-premium-gold">{{ __('Contact') }}</span>
+                    <i class="fa-solid fa-chevron-right text-premium-gold opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0"></i>
+                </a>
+            </nav>
+
+            <div class="mt-auto">
+                <div class="pt-8 border-t border-gray-100 flex justify-between items-center">
+                    @php $targetLocale = app()->getLocale() == 'ar' ? 'en' : 'ar'; @endphp
+                    <a href="{{ url($targetLocale . (request()->segment(2) ? '/' . request()->segment(2) : '') . (request()->segment(3) ? '/' . request()->segment(3) : '')) }}"
+                        class="flex items-center text-dark font-black text-xl hover:text-premium-gold transition"
+                        aria-label="Switch language to {{ $targetLocale == 'ar' ? 'Arabic' : 'English' }}">
+                        <i class="fa-solid fa-globe mr-3 rtl:ml-3 text-premium-gold" aria-hidden="true"></i>
+                        <span>{{ $targetLocale == 'ar' ? 'العربية' : 'English' }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <main id="main-content" role="main">
         @yield('content')
@@ -314,10 +362,46 @@
     <script src="https://unpkg.com/aos@next/dist/aos.js" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // AOS Init
             AOS.init({
                 duration: 800,
                 once: true,
                 disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            });
+
+            // Mobile Menu Toggle
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            function toggleMenu() {
+                const isOpen = !mobileMenu.classList.contains('translate-x-full');
+                if (isOpen) {
+                    mobileMenu.classList.add('translate-x-full');
+                    document.body.classList.remove('overflow-hidden');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                } else {
+                    mobileMenu.classList.remove('translate-x-full');
+                    document.body.classList.add('overflow-hidden');
+                    menuToggle.setAttribute('aria-expanded', 'true');
+                }
+            }
+
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', toggleMenu);
+            }
+
+            if (menuClose) {
+                menuClose.addEventListener('click', toggleMenu);
+            }
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('translate-x-full');
+                    document.body.classList.remove('overflow-hidden');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                });
             });
         });
     </script>
