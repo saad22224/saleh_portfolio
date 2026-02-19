@@ -229,8 +229,8 @@
 
     <header class="fixed w-full z-[100] transition-all duration-500 glass-nav" role="banner">
         <nav class="container mx-auto px-6 lg:px-12 py-5 flex justify-between items-center" aria-label="Main navigation">
-            <a href="{{ route('home', ['locale' => app()->getLocale()]) }}" class="text-3xl font-black tracking-tighter text-gold-gradient" aria-label="Saleh Portfolio - Home">
-                SALEH<span class="text-dark">.</span>
+            <a href="{{ route('home', ['locale' => app()->getLocale()]) }}" class="flex items-center" aria-label="Saleh Portfolio - Home">
+                <img src="{{ asset('logo.png') }}" alt="{{ $settings['site_title'] ?? 'Saleh Portfolio' }}" class="h-12 w-auto">
             </a>
 
             <div class="hidden md:flex space-x-10 items-center rtl:space-x-reverse font-bold text-xs uppercase tracking-[0.2em]">
@@ -263,8 +263,8 @@
         
         <div class="relative flex flex-col h-full p-8 z-10">
             <div class="flex justify-between items-center mb-16">
-                <a href="{{ route('home', ['locale' => app()->getLocale()]) }}" class="text-3xl font-black tracking-tighter text-gold-gradient">
-                    SALEH<span class="text-dark">.</span>
+                <a href="{{ route('home', ['locale' => app()->getLocale()]) }}" class="flex items-center">
+                    <img src="{{ asset('logo.png') }}" alt="{{ $settings['site_title'] ?? 'Saleh Portfolio' }}" class="h-12 w-auto">
                 </a>
                 <button id="menu-close" class="w-12 h-12 flex items-center justify-center bg-dark text-white rounded-full focus:outline-none hover:bg-premium-gold transition shadow-lg" aria-label="Close menu">
                     <i class="fa-solid fa-xmark"></i>
@@ -324,7 +324,9 @@
         <div class="container mx-auto px-6 lg:px-12 relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
                 <div class="col-span-1 md:col-span-2">
-                    <h2 class="text-4xl font-black text-gold-gradient mb-8">SALEH.</h2>
+                    <div class="mb-8">
+                        <img src="{{ asset('logo.png') }}" alt="{{ $settings['site_title'] ?? 'Saleh Portfolio' }}" class="h-14 w-auto">
+                    </div>
                     <p class="text-gray-400 max-w-sm mb-12 leading-relaxed text-lg">
                         {{ __('Elevating digital experiences through cutting-edge AR filters and cinematic motion graphics. Based in the heart of creativity.') }}
                     </p>

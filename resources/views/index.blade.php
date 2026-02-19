@@ -11,7 +11,7 @@
                     <span class="w-12 h-[2px] bg-premium-gold"></span>
                     <span class="text-premium-gold font-black uppercase tracking-[0.3em] text-xs">{{ __('Digital Artist & Designer') }}</span>
                 </div>
-                <h1 class="text-6xl md:text-8xl font-black mb-10 leading-[0.9] tracking-tighter">
+                <h1 class="text-4xl md:text-6xl font-black mb-10 leading-[0.9] tracking-tighter">
                     {{ app()->getLocale() == 'ar' ? 'نحول' : 'WE TURN' }} <br>
                     <span class="text-gold-gradient italic">{{ app()->getLocale() == 'ar' ? 'الخيال' : 'IMAGINATION' }}</span> <br>
                     {{ app()->getLocale() == 'ar' ? 'إلى واقع' : 'INTO REALITY' }}
@@ -56,12 +56,8 @@
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-10" data-aos="fade-right">
                 <div class="max-w-xl">
-                    <span class="text-premium-gold font-black uppercase tracking-[0.3em] text-xs mb-6 block">
-                        {{ app()->getLocale() == 'ar' ? $category->name_ar : $category->name_en }}
-                    </span>
                     <h2 class="text-5xl md:text-7xl font-black tracking-tighter leading-none">
-                        {{ app()->getLocale() == 'ar' ? 'إبداعات' : 'FEATURED' }} <br>
-                        <span class="text-gold-gradient">{{ app()->getLocale() == 'ar' ? 'مختارة' : 'WORKS' }}</span>
+                        <span class="text-gold-gradient">{{ app()->getLocale() == 'ar' ? $category->name_ar : $category->name_en }}</span>
                     </h2>
                 </div>
             </div>
